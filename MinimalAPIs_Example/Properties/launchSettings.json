@@ -4,7 +4,7 @@
     "Dev_Runner": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7152;http://localhost:7151",
       "environmentVariables": {

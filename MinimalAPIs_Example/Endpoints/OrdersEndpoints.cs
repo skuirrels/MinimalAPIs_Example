@@ -18,6 +18,12 @@ public static class OrdersEndpoints
             return Results.CreatedAtRoute("GetByNumber", new {order.OrderNumber}, order);
         });
 
+        group.MapPut("/{orderNumber}", (int orderNumber, Order updatedOrder, Orders orders) =>
+        {
+            orders.UpdateOrder(updatedOrder);
+            return Results.AcceptedAtRoute("GetByNumber", new {updatedOrder.OrderNumber}, updatedOrder);
+        });
+
         group.MapDelete("/{orderNumber}", (int orderNumber, Orders orders) =>
         {
             orders.DeleteOrder(orderNumber);

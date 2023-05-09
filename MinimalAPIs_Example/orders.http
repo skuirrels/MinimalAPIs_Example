@@ -5,12 +5,28 @@ POST {{baseUrl}}/orders
 Content-Type: application/json
 
 {
-  "OrderNumber": 4001,
-  "CustomerName": "Order 1",
+  "OrderNumber": 4002,
+  "CustomerName": "Order 2",
   "ProductName": "Order 1 description",
   "Quantity": 88
 }
 ###
+
 DELETE {{baseUrl}}/orders/4001
+
+###
+GET {{baseUrl}}/orders/4002
+###
+
+PUT {{baseUrl}}/orders/1006
+Content-Type: application/json
+
+{
+  "OrderNumber": 1006,
+  "CustomerName": "Order 99",
+  "ProductName": "Order 99 description",
+  "Quantity": 99
+}
+###
 
 
