@@ -9,19 +9,13 @@ public static class OrdersEndpoints
         var group = routes.MapGroup("/orders");
         group.MapGet("/", (Orders orders) => orders.GetAllOrders());
 
-        group.MapGet("/{orderNumber}", (int orderNumber, Orders orders) => orders.GetOrder(orderNumber));
+        group.MapGet("/{orderNumber}", (int orderNumber, Orders orders) => orders.GetOrder(orderNumber))
+            .WithName("GetByNumber");
 
         group.MapPost("/", (Order order, Orders orders) =>
         {
             orders.Add(order);
-            return Results.Ok();
-        });
-
-        group.MapPost("/{orderNumber}", (int orderNumber, Order order, Orders orders) =>
-        {
-            order.OrderNumber = orderNumber;
-            orders.UpdateOrder(order);
-            return Results.Ok();
+            return Results.CreatedAtRoute("GetByNumber", new {order.OrderNumber}, order);
         });
 
         group.MapDelete("/{orderNumber}", (int orderNumber, Orders orders) =>
