@@ -1,0 +1,16 @@
+# curl -i http://httpbin.org/ip
+GET {{baseUrl}}/orders
+###
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "OrderNumber": 4001,
+  "CustomerName": "Order 1",
+  "ProductName": "Order 1 description",
+  "Quantity": 88
+}
+###
+DELETE {{baseUrl}}/orders/4001
+
+
