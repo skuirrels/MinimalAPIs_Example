@@ -7,15 +7,27 @@ Content-Type: application/json
 {
   "OrderNumber": 4002,
   "CustomerName": "Order 2",
-  "ProductName": "Order 1 description",
-  "Quantity": 88
+  "ProductName": "Order Description",
+  "Quantity": 88,
+  "OrderLines": [
+        {
+        "LineNumber": 1,
+        "Product": "A",
+        "Quantity": 1
+        },
+        {
+        "LineNumber": 2,
+        "Product": "B",
+        "Quantity": 2
+        }
+    ]
 }
 ###
 
-DELETE {{baseUrl}}/orders/4001
+DELETE {{baseUrl}}/orders/4002
 
 ###
-GET {{baseUrl}}/orders/4002
+GET {{baseUrl}}/orders/1007
 ###
 
 PUT {{baseUrl}}/orders/1006

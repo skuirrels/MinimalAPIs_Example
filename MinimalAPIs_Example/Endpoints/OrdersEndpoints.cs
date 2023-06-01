@@ -1,4 +1,7 @@
-﻿using MinimalAPIs_Example.Repositories;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using MinimalAPIs_Example.DTOs;
+using MinimalAPIs_Example.Repositories;
 
 namespace MinimalAPIs_Example.Endpoints;
 
@@ -6,11 +9,25 @@ public static class OrdersEndpoints
 {
     public static RouteGroupBuilder MapOrders(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/orders");
-        group.MapGet("/", (Orders orders) => orders.GetAllOrders());
+        var group = routes.MapGroup("/orders")
+            .WithParameterValidation();
+        
+        // group.MapGet("/", (Orders orders) => orders.GetAllOrders());
+        // group.MapGet("/", (Orders orders) => orders.GetAllOrders().Adapt<List<OrderDto>>());
+        group.MapGet("/", (Orders orders) =>
+        {
+            var orderDtos = orders.GetAllOrders().Adapt<List<OrderDto>>();
+            return Results.Ok(orderDtos);
+        });
 
-        group.MapGet("/{orderNumber}", (int orderNumber, Orders orders) => orders.GetOrder(orderNumber))
+        group.MapGet("/{orderNumber}", (int orderNumber, Orders orders) =>
+            {
+                return orders.GetOrder(orderNumber).Adapt<OrderDto>();
+            })
             .WithName("GetByNumber");
+
+        // group.MapGet("/{orderNumber}", (int orderNumber) => Results.NotFound())
+        //     .Produces<NotFoundResult>(404);
 
         group.MapPost("/", (Order order, Orders orders) =>
         {
