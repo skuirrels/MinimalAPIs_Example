@@ -38,28 +38,34 @@ public class Orders
         var orderToUpdate = GetOrder(order.OrderNumber);
         orderToUpdate.CustomerName = order.CustomerName;
         orderToUpdate.ProductName = order.ProductName;
-        orderToUpdate.Quantity = order.Quantity;
     }
 
     private void SeedData()
     {
         orders.Add(new Order
         {
-            OrderNumber = 1001, CustomerName = "John Joe", ProductName = "Widget A", Quantity = 11,
-            State = OrderState.New, OrderLines = new List<OrderLine>
+            OrderNumber = 1001, CustomerName = "John Joe", ProductName = "Widget A",
+            State = OrderState.New, 
+            OrderLines = new List<OrderLine>
             {
-                new OrderLine { LineNumber = 1, Product = "Widget A1" },
-                new OrderLine { LineNumber = 2, Product = "Widget A2" }
+                new OrderLine { LineNumber = 1, Product = "Widget A1", Quantity = 11},
+                new OrderLine { LineNumber = 2, Product = "Widget A2", Quantity = 22}
+            },
+            CustomFields = new List<CustomField>
+            {
+                new CustomField { Name = "Warranty", Value = "3", Type = DataType.Integer },
+                new CustomField { Name = "Warranty", Value = "2", Type = DataType.Decimal }
             }
         });
         orders.Add(new Order
         {
-            OrderNumber = 1002, CustomerName = "Jane Smith", ProductName = "Widget B", Quantity = 22,
-            State = OrderState.Processing, OrderLines = new List<OrderLine>
+            OrderNumber = 1002, CustomerName = "Jane Smith", ProductName = "Widget B",
+            State = OrderState.Processing, 
+            OrderLines = new List<OrderLine>
             {
-                new OrderLine { LineNumber = 1, Product = "Widget B1" },
-                new OrderLine { LineNumber = 2, Product = "Widget B2" },
-                new OrderLine { LineNumber = 3, Product = "Widget B3" }
+                new OrderLine { LineNumber = 1, Product = "Widget B1", Quantity = 33},
+                new OrderLine { LineNumber = 2, Product = "Widget B2", Quantity = 44},
+                new OrderLine { LineNumber = 3, Product = "Widget B3", Quantity = 55}
             },
             CustomFields = new List<CustomField>
             {
@@ -69,31 +75,32 @@ public class Orders
         });
         orders.Add(new Order
         {
-            OrderNumber = 1003, CustomerName = "Bob Johnson", ProductName = "Widget C", Quantity = 33,
+            OrderNumber = 1003, CustomerName = "Bob Johnson", ProductName = "Widget C",
             State = OrderState.Delivered
         });
         orders.Add(new Order
         {
-            OrderNumber = 1004, CustomerName = "Bill Bob", ProductName = "Widget D", Quantity = 44,
+            OrderNumber = 1004, CustomerName = "Bill Bob", ProductName = "Widget D",
             State = OrderState.Delivered
         });
         orders.Add(new Order
         {
-            OrderNumber = 1005, CustomerName = "Barbie John", ProductName = "Widget E", Quantity = 55,
+            OrderNumber = 1005, CustomerName = "Barbie John", ProductName = "Widget E",
             State = OrderState.Delivered
         });
         orders.Add(new Order
         {
-            OrderNumber = 1006, CustomerName = "Kimmy Hillminger", ProductName = "Widget F", Quantity = 66,
-            State = OrderState.Delivered
+            OrderNumber = 1006, CustomerName = "Kimmy Hillminger", ProductName = "Widget F",
+            State = OrderState.Shipped
         });
         orders.Add(new Order
         {
-            OrderNumber = 1007, CustomerName = "Kenny Rogers", ProductName = "Widget G", Quantity = 77,
-            State = OrderState.Delivered, OrderLines = new List<OrderLine>
+            OrderNumber = 1007, CustomerName = "Kenny Rogers", ProductName = "Widget G",
+            State = OrderState.Delivered, 
+            OrderLines = new List<OrderLine>
             {
-                new OrderLine { LineNumber = 1, Product = "Widget G1" },
-                new OrderLine { LineNumber = 2, Product = "Widget G2" },
+                new OrderLine { LineNumber = 1, Product = "Widget G1", Quantity = 66},
+                new OrderLine { LineNumber = 2, Product = "Widget G2", Quantity = 77},
             },
             CustomFields = new List<CustomField>
             {
@@ -110,11 +117,12 @@ public class Order
     public int OrderNumber { get; set; }
     public string? CustomerName { get; set; }
     public string? ProductName { get; set; }
-    public int Quantity { get; set; }
     public OrderState State { get; set; } = OrderState.New;
     public string StateName => State.ToString();
 
-    public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedDateTime { get; private set; } = DateTime.UtcNow;
+    public DateTime? UpdatedDateTime { get; private set; } = DateTime.UtcNow;
+    public int TotalQuantity => OrderLines.Sum(orderLine => orderLine.Quantity);
 
     public List<CustomField> CustomFields { get; set; } = [];
     public List<OrderLine> OrderLines { get; set; } = [];
@@ -125,6 +133,7 @@ public class OrderLine
     public Guid Id { get; set; } = Guid.NewGuid();
     public int LineNumber { get; set; }
     public string? Product { get; set; }
+    public int Quantity { get; set; }
 }
 
 public enum OrderState

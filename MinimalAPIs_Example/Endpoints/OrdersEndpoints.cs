@@ -13,8 +13,6 @@ public static class OrdersEndpoints
         var group = routes.MapGroup("/orders")
             .WithParameterValidation();
         
-        // group.MapGet("/", (Orders orders) => orders.GetAllOrders());
-        // group.MapGet("/", (Orders orders) => orders.GetAllOrders().Adapt<List<OrderDto>>());
         group.MapGet("/", (Orders orders, [FromServices] OrderMapper mapper) =>
         {
             // var orderDtos = orders.GetAllOrders().Adapt<List<OrderDto>>();

@@ -7,21 +7,30 @@ public record OrderDto(
     int OrderNumber,
     string? CustomerName,
     string? ProductName,
-    int Quantity,
     List<OrderLineDto>? OrderLines,
     List<CustomFieldDto>? CustomFields,
     OrderState State,
-    string? StateName);
+    string? StateName,
+    DateTime CreatedDateTime,
+    DateTime? UpdatedDateTime,
+    int TotalQuantity);
 
 public record OrderInsertDto(
     int OrderNumber,
     string? CustomerName,
     string? ProductName,
-    int Quantity,
+    List<OrderLineDto>? OrderLines,
+    List<CustomFieldDto>? CustomFields);
+
+public record OrderUpdateDto(
+    int OrderNumber,
+    string? CustomerName,
+    string? ProductName,
     List<OrderLineDto>? OrderLines,
     List<CustomFieldDto>? CustomFields);
 
 public record OrderLineDto(
     //Guid Id,
     int LineNumber,
-    string? Product);
+    string? Product,
+    int Quantity);
