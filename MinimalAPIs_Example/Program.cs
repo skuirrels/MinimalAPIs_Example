@@ -1,5 +1,6 @@
 using System.Reflection;
-using Mapster;
+
+using MinimalAPIs_Example.DTOs;
 using MinimalAPIs_Example.Endpoints;
 using MinimalAPIs_Example.Mapping;
 using MinimalAPIs_Example.Repositories;
@@ -12,15 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddControllers();
 
 builder.Services.AddSingleton<Orders>();
-//builder.Services.AddSingleton<OrderMapper>();
 
-TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly()); // Scan for Mapster configurations
-
-//builder.Services.AddMapster();
+builder.Services.AddSingleton<OrderMapper>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// builder.Services.AddControllers().AddJsonOptions(options =>
+// {
+//     options.JsonSerializerOptions.Converters.Add(new DataTypeJsonConverter());
+// });
 
 var app = builder.Build();
 

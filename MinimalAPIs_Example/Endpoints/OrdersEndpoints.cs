@@ -1,7 +1,8 @@
-﻿using Mapster;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MinimalAPIs_Example.DTOs;
+using MinimalAPIs_Example.Mapping;
 using MinimalAPIs_Example.Repositories;
+using Riok.Mapperly.Abstractions;
 
 namespace MinimalAPIs_Example.Endpoints;
 
@@ -14,25 +15,29 @@ public static class OrdersEndpoints
         
         // group.MapGet("/", (Orders orders) => orders.GetAllOrders());
         // group.MapGet("/", (Orders orders) => orders.GetAllOrders().Adapt<List<OrderDto>>());
-        group.MapGet("/", (Orders orders) =>
+        group.MapGet("/", (Orders orders, [FromServices] OrderMapper mapper) =>
         {
-            var orderDtos = orders.GetAllOrders().Adapt<List<OrderDto>>();
+            // var orderDtos = orders.GetAllOrders().Adapt<List<OrderDto>>();
+            var orderDtos = mapper.OrdersToOrderDtos(orders.GetAllOrders());
+            
             return Results.Ok(orderDtos);
         });
 
-        group.MapGet("/{orderNumber}", (int orderNumber, Orders orders) =>
+        group.MapGet("/{orderNumber}", (int orderNumber, Orders orders, [FromServices] OrderMapper mapper) =>
             {
-                return orders.GetOrder(orderNumber).Adapt<OrderDto>();
+                var order = orders.GetOrder(orderNumber);
+                var orderDto = mapper.OrderToOrderDto(order);
+                return Results.Ok(orderDto);
             })
             .WithName("GetByNumber");
+        
 
-        // group.MapGet("/{orderNumber}", (int orderNumber) => Results.NotFound())
-        //     .Produces<NotFoundResult>(404);
-
-        group.MapPost("/", (Order order, Orders orders) =>
+        group.MapPost("/", (OrderInsertDto orderInsertDto, Orders orders, [FromServices] OrderMapper mapper) =>
         {
+            var order = mapper.OrderInsertDtoToOrder(orderInsertDto);
             orders.Add(order);
-            return Results.CreatedAtRoute("GetByNumber", new {order.OrderNumber}, order);
+            var orderDto = mapper.OrderToOrderDto(order);
+            return Results.CreatedAtRoute("GetByNumber", new { order.OrderNumber }, orderDto);
         });
 
         group.MapPut("/{orderNumber}", (int orderNumber, Order updatedOrder, Orders orders) =>

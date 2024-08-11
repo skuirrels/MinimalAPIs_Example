@@ -1,24 +1,19 @@
-﻿using Mapster;
 using MinimalAPIs_Example.DTOs;
 using MinimalAPIs_Example.Repositories;
+using Riok.Mapperly.Abstractions;
 
 namespace MinimalAPIs_Example.Mapping;
 
-public class OrderMapper : IRegister
+[Mapper]
+public partial class OrderMapper
 {
-    public void Register(TypeAdapterConfig config)
-    {
-        config.ForType<Order, DTOs.OrderDto>()
-            //.Ignore(dest => dest.Id); // .Ignore does not work due to a bug. 
-            //.Ignore(dest => dest.CustomerName);
-            //.Map(dest => dest.OrderNumber, src => src.Id) // Will error due to type.  
-            .Map(dest => dest.CustomerName, src => src.ProductName)
-            .Map(dest => dest.Quantity, src => src.Quantity)
-            .Map(dest => dest.OrderLines, src => src.OrderLines)
-            .Map(dest => dest.State, src => src.State.ToString());
-        //.Compile();
+    public partial OrderDto OrderToOrderDto(Order order);
+    
+    public partial List<OrderDto> OrdersToOrderDtos(List<Order> orders);
+    
+    public partial Order OrderInsertDtoToOrder(OrderInsertDto orderInsertDto);
+    
+    public partial List<Order> OrderInsertDtosToOrders(List<OrderInsertDto> orderInsertDtos);
 
-        config.NewConfig<OrderLine, OrderLineDto>();
-        //.Compile();
-    }
+    private DataType MapStringToDataType(string value) => DataType.FromString(value);
 }
