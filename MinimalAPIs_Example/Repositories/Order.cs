@@ -1,3 +1,5 @@
+using MinimalAPIs_Example.Value_Objects;
+
 namespace MinimalAPIs_Example.Repositories;
 
 public class Order
@@ -21,6 +23,10 @@ public class OrderLine
     public int LineNumber { get; set; }
     public string? Product { get; set; }
     public int Quantity { get; set; }
+
+    public Weight? Weight { get; set; }
+
+    public Volume? Volume { get; set; }
 }
 
 public enum OrderState

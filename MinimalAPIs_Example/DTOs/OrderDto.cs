@@ -33,4 +33,6 @@ public record OrderLineDto(
     //Guid Id,
     int LineNumber,
     string? Product,
-    int Quantity);
+    int Quantity,
+    WeightDto? Weight,
+    VolumeDto? Volume);

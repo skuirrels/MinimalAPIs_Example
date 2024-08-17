@@ -3,10 +3,6 @@ namespace MinimalAPIs_Example.Value_Objects;
 
 public sealed class Weight : ValueObject
 {
-    public Weight()
-    {
-        
-    }
     public Weight(decimal value, WeightType type)
     {
         Value = value;

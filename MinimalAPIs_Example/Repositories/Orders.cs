@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using MinimalAPIs_Example.Value_Objects;
 
 namespace MinimalAPIs_Example.Repositories;
 
@@ -48,7 +49,7 @@ public class Orders
             State = OrderState.New, 
             OrderLines = new List<OrderLine>
             {
-                new OrderLine { LineNumber = 1, Product = "Widget A1", Quantity = 11},
+                new OrderLine { LineNumber = 1, Product = "Widget A1", Quantity = 11, Weight = new Weight(2, WeightType.Kg), Volume = new Volume(3, VolumeType.M3)},
                 new OrderLine { LineNumber = 2, Product = "Widget A2", Quantity = 22}
             },
             CustomFields = new List<CustomField>
