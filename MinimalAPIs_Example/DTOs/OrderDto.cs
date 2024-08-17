@@ -11,9 +11,10 @@ public record OrderDto(
     List<CustomFieldDto>? CustomFields,
     OrderState State,
     string? StateName,
+    decimal TotalWeight,
+    int TotalQuantity,
     DateTime CreatedDateTime,
-    DateTime? UpdatedDateTime,
-    int TotalQuantity);
+    DateTime? UpdatedDateTime);
 
 public record OrderInsertDto(
     int OrderNumber,

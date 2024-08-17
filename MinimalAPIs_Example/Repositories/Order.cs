@@ -10,11 +10,13 @@ public class Order
     public string? ProductName { get; set; }
     public OrderState State { get; set; } = OrderState.New;
     public string StateName => State.ToString();
-    public DateTime CreatedDateTime { get; private set; } = DateTime.UtcNow;
-    public DateTime? UpdatedDateTime { get; private set; } = DateTime.UtcNow;
     public int TotalQuantity => OrderLines.Sum(orderLine => orderLine.Quantity);
+    
+    public decimal TotalWeight => OrderLines.Sum(orderLine => orderLine.Weight?.Value ?? 0);
     public List<CustomField> CustomFields { get; set; } = [];
     public List<OrderLine> OrderLines { get; set; } = [];
+    public DateTime CreatedDateTime { get; private set; } = DateTime.UtcNow;
+    public DateTime? UpdatedDateTime { get; private set; } = DateTime.UtcNow;
 }
 
 public class OrderLine

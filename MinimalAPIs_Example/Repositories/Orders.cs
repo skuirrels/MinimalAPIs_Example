@@ -50,7 +50,7 @@ public class Orders
             OrderLines = new List<OrderLine>
             {
                 new OrderLine { LineNumber = 1, Product = "Widget A1", Quantity = 11, Weight = new Weight(2, WeightType.Kg), Volume = new Volume(3, VolumeType.M3)},
-                new OrderLine { LineNumber = 2, Product = "Widget A2", Quantity = 22}
+                new OrderLine { LineNumber = 2, Product = "Widget A2", Quantity = 22, Weight = new Weight(4, WeightType.Kg), Volume = new Volume(5, VolumeType.M3)},
             },
             CustomFields = new List<CustomField>
             {
